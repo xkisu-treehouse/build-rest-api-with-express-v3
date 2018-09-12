@@ -19,6 +19,10 @@ const schema = new mongoose.Schema({
   }
 })
 
+schema.path('emailAddress').validate(function (value) {
+  return /^\S+@\S+\.\S+$/.test(value)
+}, 'Email is in invalid format')
+
 schema.methods.comparePassword = function(candidatePassword) {
   return new Promise((resolve, reject) => {
     bcrypt.compare(candidatePassword, this.password, function(err, isMatch) {
